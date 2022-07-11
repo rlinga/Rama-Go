@@ -1,0 +1,88 @@
+1. Pointers
+	var x int = 1
+	var y int
+	var xp *int
+
+	xp = &x
+	y = *xp
+
+	ptr := new(int) // creates var and returns pointer to that var
+	*ptr = 100
+2. Go automatically tracks and deallocates. Slows things a little but GC is big support in compiled langs
+
+3. Arrays => Same as C but always initialized to 0 for its elements if ints or to "" if strings
+	  => It works as copy by value unlike C, Python and Java
+
+	var x [5]int
+	var y = [5] int {1,2,3,4,5} // If there is an initialization, there must be = 
+	a := [...] int {2,3,4,5}
+	for i, v range z { // range returns 2 values index and value
+		fmt.Println(i, v);
+	}
+
+4. Slices => Slice is part of array. Window on an partial contiguous array
+	  => While array is value type, slice is reference type
+	  => Size of slices can be dynamically changed
+	  => Passed by reference between functions
+	  => Has len() and cap() to indicate length and capacity
+	  => cap() gives len()-starting position
+	  => arr := [...] string {"a", "b", "c", "d", "e", "f"}
+
+		s1 := arr[1:3] // bc
+		s2 := arr[2:6] // cdef
+	  => Writing to a slice effects underlying array. Its like a pointer to array at a specific location
+	  => Different slices can point to different parts of array
+	  => slice := [...] int {1,2,3}
+	  => Can use make() to make slices. Avoids creation of array first
+	  => var sli []int = make([]int, 10) // both len and cap are 10
+	  => sli2 := make([]int, 10, 15) // len is 10 and cap is 15
+	  => append() adds elements to end of slice (can even grow beyond underlying array)
+		sli = append(sli, 100)
+
+5. Hash tables => Use make() to create a map	
+	var idMap map[string][int]
+	idMap = make(map[string][int])
+		=> Use map literal to create a map
+			idMap := map[string][string] { "Texas" : "Austin" }
+		=> Delete an entry => delete(idMap, "joe")
+		=> id, p := idMap["Texas"] // id will be Austin and p will be true
+		=> len(idMap)
+		=> for k, v := range idMap {
+			fmt.Println(k, v)
+		   }
+
+6. Structs => type struct person {
+		name string
+		address string
+		phone string
+		} // Defines a new type person
+
+		var p1 person
+
+		p1.name = "Aanya"
+
+		p1 := new(person) // Makes an empty object to initialize
+		p2 := person (name: "Sree", address: "bold forbes", phone:"2345") // Uses struct literal to initialize
+
+7. JSON => Unicode
+	=> Almost compact representation
+	=> Types can be combined recursively
+	=> Arrays of structs, struct inside struct, maps, mix and match varieties
+	=> Can easily convert between Go struct and maps with JSON
+	=> Go struct => p1 := Person(name: "Aanya", addr: "13169", phone: "123")
+		JSON => barr, err := json.Marshal(p1)
+		=> Marshal returns JSON representation as [] byte
+		var p2 Person
+		err:= json.Unmarshal(barr, &p2) => Converts a JSON object into Go object. Copies from JSON object barr into Go object p2
+8. io/ioutil provides basic file handing operations
+dat, e := ioutil.ReadFile("test.txt") => Automatically takes care of open, read and close
+dat is []byte filled with contents of entire file
+
+err := ioutil.WriteFile("outfile.txt", dat, 0777)
+
+=> Writes []byte to file and automatically takes care of open and close
+
+9. os package offers more granular file handling. Partial read / write of file
+	os.Open(), os.Read(), os.Write(), os.Close()
+	os.Create(), os.Delete()
+
