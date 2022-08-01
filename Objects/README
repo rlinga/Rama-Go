@@ -1,0 +1,110 @@
+1. There are no classes in Go
+2. There are objects that are defined as Go templates with data and functions
+3. Point class definition in python:
+
+	class Point:
+		def __init__(self, xval, yval):
+			self.x = xval
+			self.y = yval
+
+4. Method has a receiver type associated with
+
+	type MyInt int
+
+	func (mi MyInt) Double() int {
+		return int(mi*2)
+	}	
+
+	func main() {
+		v := MyInt(3)
+		fmt.Println(v.Double())
+	}
+
+	Method Double has implicit argument v.
+
+5. Methods starting with capital letter are public
+6. Go has structs and methods with capital letter are its public functions
+
+7. func (p Point) OffsetX(x float64) {
+		p.x += x
+   } // Pass by value
+
+   func (p *Point) OffsetX(x float64) {
+		p.x += x
+   } // Pass by reference
+
+There is no need to dereference as *p in Go lang.
+
+8. Go lang does not have class keyword but it does have struct
+
+	type Point struct {
+		x, y int
+	}
+9. Data is associated with methods using receiver type
+
+	Yet again ...
+
+		type MyInt int
+
+		func (mi MyInt) Double() int {
+			return int(mi *2)
+		}
+
+		func main() {
+			var v MyInt(3)
+			fmt.Println(v.Double())
+
+		}
+
+10. Pointer receivers
+
+	func (p *Point) OffsetX(int x) {
+		p.x += x
+	} // Pass by reference
+
+11. There is no concept of de-reference *p to access value at pointer. Compiler takes care of it even with just specifying p.
+
+12. type Shape2D interface {
+	Area() float64
+	Perimeter() float64
+    }
+
+    type Triangle {
+	// something something
+    }
+
+    func (t Triangle) Area() float64 {}
+    func (t Triangle) Perimeter() float64 {}
+} // Triangle implements Shape2D interface
+
+13. func DrawShape(s Shape2D) bool {
+	rect, ok := s.(Rectangle)
+	if ok {
+		DrawRectangle(rect)
+	}
+	tri, ok := s.(Triangle)
+	if ok {
+		DrawTriangle(tri)
+	}
+    }
+
+    => Type assertion in above extracts concrete type from Shape2D
+    => Specify concrete type in paranthesis
+    => If interface s contains concrete type, ok = true else ok = false
+
+    func DrawShape(s Shape2D) bool {
+
+	switch := sh := s.(type) {
+		case Rectangle: DrawRectangle(sh)
+		case Triangle: DrawTriangle(sh)
+	}
+    }
+
+14. Error handling
+
+    f, err = os.Open("test.txt")
+    if err != nil {
+	fm.Println(err)
+	return
+    }
+ 

@@ -1,0 +1,92 @@
+1. Keep the functions focussed on one task
+2. Limit it to be 50 lines per func
+3. Limit the number of control flow paths in func
+
+func f1(a int, b int) {
+	fmt.Printf(a*b)
+}
+
+func f1(a, b int) {
+	fmt.Printf(a*b)
+}
+
+func f2(a, b int) int {
+	return a+b
+}
+
+c := f2(10,200)
+
+func f2(a, b int) (int, int) {
+	return a+b, a-b
+}
+
+d, e = f2(10,15) 
+
+// Pass by reference
+func f4(y *int) {
+	*y = *y * 2
+}
+
+4. Arrays are copied by value
+
+// pass by value
+func a1(x [3]int) {
+
+}
+
+// pass by pointer
+func a1(x *[3]int) {
+
+}
+
+=> Passing arrays need matching sizes to be specified on both declaration and calling times
+=> Passing slices MUST leave sizes as empty on both declaration and calling times
+=> Slice is basically a struct that specifies pointer to starting location of array, length and capacity
+
+Slice example
+==============
+
+func slice(s []int) {
+	s[0] += 10
+}
+
+
+func main() {
+
+	s := [] int {2,3,4}
+	slice(s)
+}
+
+=> Functions can be used as first-class (just like int, float, bool etc)
+
+func sum(a, b int) int {
+	return a + b
+}
+
+var math func(int, int) int
+
+func main() {
+	math = sum
+	fmt.Println(math(20, 30))
+}
+
+=> Closure is function + its environment (all vars of functions)
+
+=> When functions are passed / used / returned, its enviroment goes with them
+
+=> Functions can take variable number of args using elisis (...)
+
+func getMax(vals ...int) {
+	max := -1
+	for _, i := range vals {
+		if max < i {
+			max = i
+		}
+	}
+	return max
+}
+}
+
+=> Deferred func calls (execute later)
+	=> Used for cleanup activities	
+	=> Arguments are calculated immediately but actual function call happens later
